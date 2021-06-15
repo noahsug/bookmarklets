@@ -1,0 +1,27 @@
+{
+  "name": "bookmarklets",
+  "version": "0.1.0",
+  "author": "Noah Sugarman <noahsug@gmail.com>",
+  "license": "MIT",
+  "description": "bookmarklets",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:noahsug/bookmarklets.git"
+  },
+  "scripts": {
+    "prettier": "prettier --write bookmarklets/**",
+    "minify": "babel --minified --no-comments bin --out-dir bin",
+    "build": "babel-node scripts/build && yarn minify"
+  },
+  "keywords": [
+    "bookmarklets",
+    "bookmarks"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/node": "^7.14.5",
+    "prettier": "^2.1.2"
+  }
+}

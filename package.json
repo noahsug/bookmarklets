@@ -10,8 +10,9 @@
   },
   "scripts": {
     "prettier": "prettier --write bookmarklets/**",
-    "minify": "babel --minified --no-comments bin --out-dir bin",
-    "build": "babel-node scripts/build && yarn minify"
+    "minify": "yarn prettier && babel --minified --no-comments bin --out-dir bin",
+    "build": "rm -rf bin && mkdir bin && babel-node scripts/build && yarn minify",
+    "copy:google-messages": "yarn build && cat bin/google-messages-select-unread.js | pbcopy"
   },
   "keywords": [
     "bookmarklets",

@@ -4,12 +4,12 @@
 
 ## Installation
 1. Build the bookmarklet code
-```
+```sh
 git clone git@github.com:noahsug/bookmarklets.git
-cd untappd-bookmarklets
+cd bookmarklets
 yarn
 yarn build
-ls bin
+ls bin # built bookmarklets are stored in bin/
 ```
 
 2. Bookmark a bookmarklet

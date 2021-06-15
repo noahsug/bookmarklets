@@ -1,3 +1,8 @@
+/**
+ * Use on "https://messages.google.com/".
+ * Marks all messages, calls, or voicemail as read.
+ */
+
 const ORIGIN_REGEX = new RegExp('//messages.google.com');
 if (!ORIGIN_REGEX.test(document.location.origin)) {
   alert(`Cannot run bookmarklet!\nURL should match "${ORIGIN_REGEX}"`);
@@ -9,7 +14,7 @@ const CLICK_DELAY = 500;
 // milliseconds to wait after scrolling to an already loaded part of the page
 const SCROLL_DELAY = 500;
 // milliseconds to wait before giving up on loading more messages
-const LOAD_DELAY = 3000;
+const LOAD_TIMEOUT = 3000;
 
 const selectors = {
   unreadItem: '.text-content.unread',
@@ -25,6 +30,7 @@ async function iterate() {
 
   // run until there are no new items to load
   if (newItems.length > items.length) {
+    console.log(`loaded ${newItems.length - items.length} message(s)`);
     await iterate();
   }
 }
@@ -32,7 +38,7 @@ async function iterate() {
 function markAllInViewAsRead() {
   const unread = document.querySelectorAll(selectors.unreadItem);
   if (unread.length > 0) {
-    console.log('marking', unread.length, 'messages as read');
+    console.log('marking', unread.length, 'messages as read...');
   }
 
   const markAsUnreadJobs = [...unread].map((item) => {
@@ -47,15 +53,13 @@ function markAllInViewAsRead() {
 
 // new items are loaded by scrolling to the top and then scrolling back down to the bottom
 async function loadMoreItems(items) {
-  console.log('loading new messages...');
-
   const firstItem = items[0];
   firstItem.scrollIntoView();
   await delay(SCROLL_DELAY);
 
   const lastItem = items[items.length - 1];
   lastItem.scrollIntoView();
-  await longPoll(checkForNewItems, { timeout: LOAD_DELAY });
+  await longPoll(checkForNewItems, { timeout: LOAD_TIMEOUT });
 }
 
 async function checkForNewItems() {
